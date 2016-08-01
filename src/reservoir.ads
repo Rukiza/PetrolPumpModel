@@ -10,6 +10,9 @@ is
    function Init (f : in Fuel_Type;
                   a : in Litre) return Reservoir_State;
 
+   function Has_Fuel_Type (f: Fuel_Type;
+                           p: in Reservoir_State) return Boolean;
+
 private
 
 
