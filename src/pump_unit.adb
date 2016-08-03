@@ -11,6 +11,8 @@ is
    begin
 
       s.Current_State := Ready_State;
+      s.Selected := Get_Fuel_Pump(p, s.Pumps);
+      s.Has_Selected := true;
 
    end Lift_Nozzle;
 
@@ -18,11 +20,15 @@ is
    procedure Replace_Nozzle (s: in out State;
                              p: in Fuel_Type) is
    begin
-      null;
+
+      if (Pump.Get_Amount_Pumped(s.Pumps(s.Selected)) < Litre(0.0)) then
+         s.Current_State := Waiting_State;
+      end if;
+
    end Replace_Nozzle;
 
 
-   procedure Start_Pumping (s: in out State) is
+   procedure Start_Pumping (s: in out State; a: Litre) is
    begin
       null;
    end Start_Pumping;
@@ -57,6 +63,8 @@ is
       end loop;
       return l;
    end Get_Fuel_Pump;
+
+   function Get_Current_State(s: State) return State_Enum is (s.Current_State);
 
 
 end Pump_Unit;

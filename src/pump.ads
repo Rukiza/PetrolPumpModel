@@ -13,6 +13,10 @@ is
    function Has_Fuel_Type (f: Fuel_Type;
                            p: in Pump_State) return Boolean;
 
+   function Get_Amount_Pumped(p: in Pump_State) return Litre;
+
+   function Can_Pump(p: in Pump_State; a: Litre) return Boolean;
+
 
    private
 

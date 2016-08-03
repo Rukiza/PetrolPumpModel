@@ -12,10 +12,17 @@ is
       return l;
    end Init;
 
-   function Has_Fuel_Type (f: Fuel_Type;
+   function Has_Fuel_Type (f: in Fuel_Type;
                            p: in Pump_State) return Boolean is
    begin
       return Reservoir.Has_Fuel_Type(f, p.Reserve);
    end Has_Fuel_Type;
+
+   function Get_Amount_Pumped(p: in Pump_State) return Litre is (p.Amount_Pumped);
+
+   function Can_Pump(p: in Pump_State; a: in Litre) return Boolean is
+   begin
+      return true;
+   end Can_Pump;
 
 end Pump;
