@@ -14,9 +14,8 @@ is
 
    function Has_Fuel_Type (f: in Fuel_Type;
                            p: in Pump_State) return Boolean is
-   begin
-      return Reservoir.Has_Fuel_Type(f, p.Reserve);
-   end Has_Fuel_Type;
+    (Reservoir.Has_Fuel_Type(f, p.Reserve));
+
 
    function Get_Amount_Pumped(p: in Pump_State) return Litre is (p.Amount_Pumped);
 

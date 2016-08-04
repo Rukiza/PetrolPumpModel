@@ -9,17 +9,11 @@ is
 
    function Init (f : in Fuel_Type;
                   a : in Litre) return Reservoir_State is
-      l : Reservoir_State := (f,a);
-   begin
-      Put_Line(Float'Image((Float(a))));
-      return l;
-   end Init;
+      ((f, a));
 
    function Has_Fuel_Type (f: Fuel_Type;
                            p: in Reservoir_State) return Boolean is
-   begin
-      return p.F_T = f;
-   end Has_Fuel_Type;
+     (p.F_T = f);
 
 
 end Reservoir;
