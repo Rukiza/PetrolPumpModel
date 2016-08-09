@@ -12,6 +12,14 @@ is
 
    function Init (v: in Litre) return Tank_State
    is
-      ((v, Litre(0.0)));
+     ((v, Litre(0.0)));
+
+   procedure Add_Fuel (t: in out Tank_State) is
+   begin
+      if (Litre'Succ(t.Volume_Used) in Litre'Range and
+            Litre'Succ(t.Volume_Used) <= t.Total_Volume) then
+         t.Volume_Used := Litre'Succ(t.Volume_Used);
+      end if;
+   end Add_Fuel;
 
 end Tank;

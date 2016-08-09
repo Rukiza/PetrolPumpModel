@@ -22,8 +22,17 @@ is
      with Depends => (Get_Amount_Pumped'Result => (p)),
        Pre => (p.Amount_Pumped >= Litre (0.0));
 
+   procedure Set_Amount_Pumped(p: in out Pump_State;
+                               a: in Litre)
+     with Depends => (p => (p, a)),
+     Pre => (Can_Pump(p, a) and p.Amount_Pumped + a in Litre'Range),
+     Post => (p'Old.Amount_Pumped = p.Amount_Pumped + a and
+                Reservoir.Get_Amount(p.Reserve) =
+                  Reservoir.Get_Amount(p'Old.Reserve) - a);
 
-   function Can_Pump(p: in Pump_State; a: in Litre) return Boolean;
+
+   function Can_Pump(p: in Pump_State; a: in Litre) return Boolean
+   with Depends => (Can_Pump'Result => (p, a));
 
 
 

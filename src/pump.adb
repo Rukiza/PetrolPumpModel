@@ -20,8 +20,13 @@ is
    function Get_Amount_Pumped(p: in Pump_State) return Litre is (p.Amount_Pumped);
 
    function Can_Pump(p: in Pump_State; a: in Litre) return Boolean is
+      (Reservoir.Can_Pump(p.Reserve, a));
+
+   procedure Set_Amount_Pumped(p: in out Pump_State;
+                               a: in Litre) is
    begin
-      return true;
-   end Can_Pump;
+      p.Amount_Pumped := p.Amount_Pumped + a;
+      Reservoir.Set_Amount(p.Reserve, a);
+   end Set_Amount_Pumped;
 
 end Pump;

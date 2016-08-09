@@ -15,5 +15,17 @@ is
                            p: in Reservoir_State) return Boolean is
      (p.F_T = f);
 
+   function Can_Pump (r: in Reservoir_State;
+                      a: in Litre) return Boolean is
+      (r.Amount - a >= Litre(0));
+
+   function Get_Amount(r: in Reservoir_State) return Litre is
+     (r.Amount);
+
+   procedure Set_Amount(r: in out Reservoir_State;
+                        a: in Litre) is
+   begin
+      r.Amount := r.Amount - a;
+   end Set_Amount;
 
 end Reservoir;

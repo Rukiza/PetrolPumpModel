@@ -19,7 +19,11 @@ is
 
    function Init (v: Litre) return Tank_State
      with Depends => (Init'Result => v),
-     Pre => (v <= Litre(0.0));
+     Pre => (v >= Litre(0.0));
 
-
+   procedure Add_Fuel (t: in out Tank_State)
+     with Depends => (t => (t)),
+     Pre => (t.Total_Volume > t.Volume_Used) and (Litre'Succ(t.Total_Volume) in Litre'Range),
+     Post => ((t.Total_Volume >= t.Volume_Used)) and
+     t'Old.Volume_Used = Litre'Pred(t.Volume_Used);
 end Tank;
