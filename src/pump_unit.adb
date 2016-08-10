@@ -64,7 +64,7 @@ is
 
 
    procedure Pay (s: in out State;
-                  a: in Money) is
+                  a: in out Money) is
    begin
       null;
    end Pay;
@@ -72,6 +72,9 @@ is
    function Init (a: in Pump_Array) return State is
       ((Base_State, false, Petrol91, a, Litre(0.0), (Litre(0), Litre(0))));
 
+   function CheckState (s: in State;
+                        To_Check: in State_Enum) return Boolean is
+      (s.Current_State = To_Check);
    --function Get_Fuel_Pump(f: Fuel_Type;
    --                       a: Pump_Array) return Positive is
    --   l : Positive := 1;

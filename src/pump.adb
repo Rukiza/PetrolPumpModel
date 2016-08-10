@@ -7,10 +7,7 @@ with SPARK_Mode => On
 is
 
    function Init (r : in Reservoir.Reservoir_State) return Pump_State is
-      l :Pump_State := (r, 0.000);
-   begin
-      return l;
-   end Init;
+      ((r, 0.000));
 
    function Has_Fuel_Type (f: in Fuel_Type;
                            p: in Pump_State) return Boolean is

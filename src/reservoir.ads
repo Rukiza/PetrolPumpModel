@@ -14,7 +14,7 @@ is
    function Init (f : in Fuel_Type;
                   a : in Litre) return Reservoir_State
      with Depends => (Init'Result => (f, a)),
-     Pre => (a <= Litre(0.0));
+     Pre => (a >= Litre(0.0));
 
    function Has_Fuel_Type (f: in Fuel_Type;
                            p: in Reservoir_State) return Boolean

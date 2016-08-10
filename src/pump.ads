@@ -12,7 +12,9 @@ is
          Amount_Pumped : Litre;
    end record;
 
-   function Init (r : in Reservoir.Reservoir_State) return Pump_State;
+   function Init (r : in Reservoir.Reservoir_State) return Pump_State
+     with Depends => (Init'Result => (r)),
+     Pre => (Reservoir.Get_Amount(r) >= 0.0);
 
    function Has_Fuel_Type (f: in Fuel_Type;
                            p: in Pump_State) return Boolean

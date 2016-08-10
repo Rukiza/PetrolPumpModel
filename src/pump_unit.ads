@@ -29,13 +29,13 @@ is
                           p: in Fuel_Type)
      with Depends => (s => (p, s)),
      Pre =>
-       ((for all j in s.Pumps'Range => Pump.Has_Fuel_Type(j, s.Pumps(j))) and then
-       (for some i in s.Pumps'Range => (Pump.Has_Fuel_Type(p, s.Pumps(i)) and p = i)
-        and then (if (s.Current_State = Waiting_State) then (s.Selected = i
-          and s.Has_Selected)))) and
-     (for some e in Fuel_Type'First .. Fuel_Type'Last => e = p) and
-     ((if s.Current_State = Base_State then not s.Has_Selected) and
-                 (if s.Current_State = Waiting_State then (s.Has_Selected))),
+       ((s.Current_State = Waiting_State or s.Current_State = Base_State) and
+        ((for all j in s.Pumps'Range => Pump.Has_Fuel_Type(j, s.Pumps(j))) and then
+          (for some i in s.Pumps'Range => (Pump.Has_Fuel_Type(p, s.Pumps(i)) and p = i)
+           and then (if (s.Current_State = Waiting_State) then (s.Selected = i
+             and s.Has_Selected)))) and
+     (if s.Current_State = Base_State then not s.Has_Selected) and
+          (if s.Current_State = Waiting_State then (s.Has_Selected and s.Selected = p))),
        Post => --(s.Selected in s.Pumps'Range) and then
          (( s.Selected = p)
             and then --
@@ -88,16 +88,25 @@ is
 
 
    procedure Pay (s: in out State;
-                  a: in Money)
-     with Depends => (s => (s, a)),
-     Pre => (),
-     Post => ();
+                  a: in out Money)
+     with Depends => (s => (s, a),
+                     a => (s, a)),
+     Pre => (s.Current_State = Waiting_State and
+               a >= 0.00),
+     Post => ((if (Pump.Get_Amount_Pumped(s.Pumps(s'Old.Selected)) = 0.00)
+                then (S.Current_State = Base_State)) and
+                (if (Pump.Get_Amount_Pumped(s.Pumps(s'Old.Selected)) > 0.00)
+                  then (s.Selected = s'Old.Selected
+                and S.Current_State = Waiting_State)));
 
    function Init (a: in Pump_Array) return State
      with Depends => (Init'Result => a),
      Pre => (for all i  in a'Range => Pump.Has_Fuel_Type(i,a(i))) and
      (for all i in a'Range => (for some j in Fuel_Type'Range => i = j));
 
+   function CheckState (s: in State;
+                        To_Check: in State_Enum) return Boolean
+   with Depends => (CheckState'Result => (s, To_Check));
    --function Get_Fuel_Pump(f: Fuel_Type;
    --                       a: Pump_Array) return Positive
    --  with Depends => (Get_Fuel_Pump'Result => (f, a)),
