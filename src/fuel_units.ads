@@ -7,7 +7,7 @@ is
 
    type Fuel_Type is (Petrol91, Petrol95, Diesel);
 
-   type Litre is digits 3 range 0.0 .. 100000.0 ;
+   type Litre is new Integer range 0.. 100000 ;
 
      type Fuel_Price is
       record

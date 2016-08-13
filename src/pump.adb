@@ -7,7 +7,7 @@ with SPARK_Mode => On
 is
 
    function Init (r : in Reservoir.Reservoir_State) return Pump_State is
-      ((r, 0.000));
+      ((r, 0));
 
    function Has_Fuel_Type (f: in Fuel_Type;
                            p: in Pump_State) return Boolean is
@@ -22,7 +22,7 @@ is
    procedure Set_Amount_Pumped(p: in out Pump_State;
                                a: in Litre) is
    begin
-      p.Amount_Pumped := p.Amount_Pumped + a;
+      p.Amount_Pumped := a; --p.Amount_Pumped + a;
       Reservoir.Set_Amount(p.Reserve, a);
    end Set_Amount_Pumped;
 

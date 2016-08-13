@@ -1,8 +1,16 @@
 project PetrolPumpModel is
 
-   for Source_Dirs use ("src");
+   for Source_Dirs use ("src/**", "lib/**");
    for Object_Dir use "out/";
-   for Main use ("test.adb");
+   for Main use ("test.adb", "test_harness.adb");
+
+   package Compiler is
+      for Default_Switches ("ada") use ("-ftest-coverage", "-fprofile-arcs");
+   end Compiler;
+
+   package Linker is
+      for Default_Switches ("ada") use ("-fprofile-generate");
+   end Linker;
 
 end PetrolPumpModel;
 

@@ -14,7 +14,8 @@ is
 
    function Init (r : in Reservoir.Reservoir_State) return Pump_State
      with Depends => (Init'Result => (r)),
-     Pre => (Reservoir.Get_Amount(r) >= 0.0);
+     Pre => (Reservoir.Get_Amount(r) >= 0),
+     Post => (Get_Amount_Pumped(Init'Result) = 0);
 
    function Has_Fuel_Type (f: in Fuel_Type;
                            p: in Pump_State) return Boolean
@@ -22,7 +23,8 @@ is
 
    function Get_Amount_Pumped(p: in Pump_State) return Litre
      with Depends => (Get_Amount_Pumped'Result => (p)),
-       Pre => (p.Amount_Pumped >= Litre (0.0));
+     Pre => (p.Amount_Pumped >= Litre (0.0)),
+   Post => (Get_Amount_Pumped'Result = p.Amount_Pumped);
 
    procedure Set_Amount_Pumped(p: in out Pump_State;
                                a: in Litre)
